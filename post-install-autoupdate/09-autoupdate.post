@@ -1,0 +1,122 @@
+sh_autoupdate_msg() {
+	echo -e "\033[31m[Autoupdate POST]\033[34m ${1}...\033[0m"
+}
+
+sh_autoupdate() {
+	local shup=0
+	local shdate_new=0
+	local shdate_old=0
+	local shmode=0
+	
+	if [ -f /var/log/pacman.log ]; then
+		shdate_new=$(date +"%d%m%Y")
+		shdate_old=$(date -r /var/log/pacman.log +"%d%m%Y")
+		shup=$(tail -n 1000 /var/log/pacman.log | grep "\[PACMAN\] starting .* system upgrade" | tail -n 1 | cut -c 46-)
+		if [ "${shup}" = "core system upgrade" ]; then shmode=1; fi
+		if [ "${shup}" = "full system upgrade" ]; then shmode=2; fi
+		if [ ${shdate_old} -ne ${shdate_new} -a ${shmode} -eq 0 ]; then
+			echo -e "" > /var/log/pacman.log
+			clear
+			sh_autoupdate_msg "Synchronizing Package Databases"
+			pacman -Sy --noconfirm
+			sh_autoupdate_msg "Starting System Update"
+			pacman -Su --noconfirm
+			echo -e "\033[31m[Autoupdate POST]\033[34m\a Restarting...\033[0m"
+			sleep 5s
+			if [ "${MSYSTEM}" = "MSYS" ]; then exec /msys2.exe; else exec "/${MSYSTEM}.exe"; fi
+			exit
+		elif [ ${shdate_old} -eq ${shdate_new} -a ${shmode} -eq 0 ]; then
+			echo -e "" > /var/log/pacman.log
+			clear
+			sh_autoupdate_msg "Synchronizing Package Databases"
+			pacman -Sy --noconfirm
+			sh_autoupdate_msg "Starting System Update"
+			pacman -Su --noconfirm
+			echo -e "\033[31m[Autoupdate POST]\033[34m\a Restarting...\033[0m"
+			sleep 5s
+			if [ "${MSYSTEM}" = "MSYS" ]; then exec /msys2.exe; else exec "/${MSYSTEM}.exe"; fi
+			exit
+		elif [ ${shdate_old} -eq ${shdate_new} -a ${shmode} -eq 1 ]; then
+			echo -e "" > /var/log/pacman.log
+			clear
+			sh_autoupdate_msg "Synchronizing Package Databases"
+			pacman -Sy --noconfirm
+			sh_autoupdate_msg "Starting System Update"
+			pacman -Su --noconfirm
+			paccache -r
+			echo -e "\033[31m[Autoupdate POST]\033[34m\a Restarting...\033[0m"
+			sleep 5s
+			if [ "${MSYSTEM}" = "MSYS" ]; then exec /msys2.exe; else exec "/${MSYSTEM}.exe"; fi
+			exit
+		elif [ ${shdate_old} -ne ${shdate_new} -a ${shmode} -eq 2 ]; then
+			echo -e "" > /var/log/pacman.log
+			clear
+			sh_autoupdate_msg "Synchronizing Package Databases"
+			pacman -Sy --noconfirm
+			sh_autoupdate_msg "Starting System Update"
+			pacman -Su --noconfirm
+			paccache -r
+			echo -e "\033[31m[Autoupdate POST]\033[34m\a Restarting...\033[0m"
+			sleep 5s
+			if [ "${MSYSTEM}" = "MSYS" ]; then exec /msys2.exe; else exec "/${MSYSTEM}.exe"; fi
+			exit
+		fi
+	else
+		echo -e "" > /var/log/pacman.log
+		shdate_new=$(date +"%d%m%Y")
+		shdate_old=$(date -r /var/log/pacman.log +"%d%m%Y")
+		shup=$(tail -n 1000 /var/log/pacman.log | grep "\[PACMAN\] starting .* system upgrade" | tail -n 1 | cut -c 46-)
+		if [ "${shup}" = "core system upgrade" ]; then shmode=1; fi
+		if [ "${shup}" = "full system upgrade" ]; then shmode=2; fi
+		if [ ${shdate_old} -ne ${shdate_new} -a ${shmode} -eq 0 ]; then
+			echo -e "" > /var/log/pacman.log
+			clear
+			sh_autoupdate_msg "Synchronizing Package Databases"
+			pacman -Sy --noconfirm
+			sh_autoupdate_msg "Starting System Update"
+			pacman -Su --noconfirm
+			echo -e "\033[31m[Autoupdate POST]\033[34m\a Restarting...\033[0m"
+			sleep 5s
+			if [ "${MSYSTEM}" = "MSYS" ]; then exec /msys2.exe; else exec "/${MSYSTEM}.exe"; fi
+			exit
+		elif [ ${shdate_old} -eq ${shdate_new} -a ${shmode} -eq 0 ]; then
+			echo -e "" > /var/log/pacman.log
+			clear
+			sh_autoupdate_msg "Synchronizing Package Databases"
+			pacman -Sy --noconfirm
+			sh_autoupdate_msg "Starting System Update"
+			pacman -Su --noconfirm
+			echo -e "\033[31m[Autoupdate POST]\033[34m\a Restarting...\033[0m"
+			sleep 5s
+			if [ "${MSYSTEM}" = "MSYS" ]; then exec /msys2.exe; else exec "/${MSYSTEM}.exe"; fi
+			exit
+		elif [ ${shdate_old} -eq ${shdate_new} -a ${shmode} -eq 1 ]; then
+			echo -e "" > /var/log/pacman.log
+			clear
+			sh_autoupdate_msg "Synchronizing Package Databases"
+			pacman -Sy --noconfirm
+			sh_autoupdate_msg "Starting System Update"
+			pacman -Su --noconfirm
+			paccache -r
+			echo -e "\033[31m[Autoupdate POST]\033[34m\a Restarting...\033[0m"
+			sleep 5s
+			if [ "${MSYSTEM}" = "MSYS" ]; then exec /msys2.exe; else exec "/${MSYSTEM}.exe"; fi
+			exit
+		elif [ ${shdate_old} -ne ${shdate_new} -a ${shmode} -eq 2 ]; then
+			echo -e "" > /var/log/pacman.log
+			clear
+			sh_autoupdate_msg "Synchronizing Package Databases"
+			pacman -Sy --noconfirm
+			sh_autoupdate_msg "Starting System Update"
+			pacman -Su --noconfirm
+			paccache -r
+			echo -e "\033[31m[Autoupdate POST]\033[34m\a Restarting...\033[0m"
+			sleep 5s
+			if [ "${MSYSTEM}" = "MSYS" ]; then exec /msys2.exe; else exec "/${MSYSTEM}.exe"; fi
+			exit
+		fi
+		
+	fi
+}
+
+sh_autoupdate

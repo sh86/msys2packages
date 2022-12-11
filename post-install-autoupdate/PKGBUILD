@@ -1,0 +1,14 @@
+pkgname='post-install-autoupdate'
+pkgver=1.0.0
+pkgrel=1
+source=('09-autoupdate.post')
+arch=('any')
+sha256sums=('a376feb5cbce38d53e62626abc34e1ed40c8f2e4cb72709aedfe405b09725ab4')
+
+package() {
+	cd ${pkgdir}
+	
+	install -d -m755 etc
+	install -d etc/post-install
+	install -m644 ${srcdir}/09-autoupdate.post etc/post-install/
+}

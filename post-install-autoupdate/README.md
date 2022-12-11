@@ -1,0 +1,7 @@
+# Autoupdate POST Script (Run Daily)
+
+First run MSYS2:
+![MSYS2_POST_AUTOUPDATE_01.jpg](MSYS2_POST_AUTOUPDATE_01.jpg)
+
+Second run MSYS2:
+![MSYS2_POST_AUTOUPDATE_02.jpg](MSYS2_POST_AUTOUPDATE_02.jpg)
